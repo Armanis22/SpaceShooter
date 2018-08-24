@@ -15,7 +15,6 @@ Game::~Game()
 void Game::Play(sf::RenderWindow& window)
 {
 
-	//updating the mouse position
 	
 
 	while (window.isOpen())
@@ -41,6 +40,7 @@ void Game::Play(sf::RenderWindow& window)
 			QuitGame();
 		}
 
+		//updating the mouse position
 
 		mousePointer.Update(sf::Mouse::getPosition(window));
 
