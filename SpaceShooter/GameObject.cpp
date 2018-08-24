@@ -16,8 +16,8 @@ void GameObject::Draw(sf::RenderWindow & window)
 PlayerObject::PlayerObject()
 {
 	m_Body.setFillColor(sf::Color::Green);
-	m_Body.setSize({ 80,40 });
-	m_Body.setPosition({ 100, 300 });
+	m_Body.setSize({ 50,20 });
+	m_Body.setPosition({ 100, 200 });
 	m_Body.setOrigin({ m_Body.getSize().x / 2,m_Body.getSize().y / 2 });
 	printf("Called\n");
 
