@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Game.h"
 #include "GameObject.h"
 //#include "Random.h"
 
@@ -24,9 +25,10 @@ PlayerObject::PlayerObject()
 
 }
 
-void PlayerObject::Update(float dt)
+void PlayerObject::Update(Game* game, float dt)
 {
-	Input(dt);
+	
+	Input(game, dt);
 
 	if (moveVec.x != 0 && moveVec.y != 0)
 	{
@@ -35,7 +37,7 @@ void PlayerObject::Update(float dt)
 	m_Body.move(moveVec);
 }
 
-void PlayerObject::Input(float dt)
+void PlayerObject::Input(Game* game, float dt)
 {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -53,6 +55,16 @@ void PlayerObject::Input(float dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		moveVec.y = MOVESPEED * dt;
+	}
+
+	//mouse input
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		//magic numbers for now,
+		//TODO: build the different levels of the weapons as they power up
+		// stand in numbers are assumed for level 1 untill bigger system is in
+
+		game->FireWeapon(dt, m_Body.getPosition()); 
 	}
 
 }
@@ -82,7 +94,7 @@ WallObject::WallObject(float height)
 	
 }
 
-void WallObject::Update(float dt)
+void WallObject::Update(Game* game, float dt)
 {
 	m_Body.move(sf::Vector2f(-500*dt, 0));
 
@@ -95,4 +107,24 @@ void WallObject::Update(float dt)
 int WallObject::GetWallCount()
 {
 	return m_WallsCount;
+}
+
+BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location)
+{
+	m_Body.setFillColor(sf::Color::Blue);
+	m_Body.setPosition(location);
+	m_Body.setSize({ 10,10 });
+	m_MoveSpeed = moveSpd;
+	//m_Body.setRadius(radius);
+	
+	//m_MoveSpeed(moveSpd)
+	//m_MoveDirection(dir)
+	m_MoveDirection = dir;
+
+}
+
+void BlasterBullet::Update(Game * game, float dt)
+{
+	m_Body.move(m_MoveDirection.x * m_MoveSpeed, m_MoveDirection.y * m_MoveSpeed);
+	m_Countdown += dt;
 }

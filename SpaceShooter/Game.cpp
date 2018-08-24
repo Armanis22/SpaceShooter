@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "GameObject.h"
 
 
 Game::Game()
@@ -70,7 +71,7 @@ void Game::Update(float dt)
 
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
-		m_GameObjectsList[i]->Update(dt);
+		m_GameObjectsList[i]->Update(&(*this), dt);
 	}
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
@@ -81,6 +82,7 @@ void Game::Update(float dt)
 			i--;
 		}
 	}
+
 
 }
 
@@ -94,7 +96,6 @@ void Game::Draw(sf::RenderWindow & window)
 
 void Game::AddObject(GameObject * object)
 {
-
 	m_GameObjectsList.emplace_back(object);
 }
 
@@ -107,5 +108,22 @@ void Game::CreateWalls(float dt)
 
 		//random height in a set, still messing with these
 		AddObject(new WallObject(myRandomGen.FloatInRange(60,120)));
+	}
+}
+
+void Game::FireWeapon(float dt, sf::Vector2f pos)
+{
+	m_WeaponCountdown += dt;
+	if (m_WeaponCountdown >= .1f)
+	{
+		m_WeaponCountdown = 0;
+
+		int tempX = mousePointer.GetPosition().x - pos.x;
+		int tempY = mousePointer.GetPosition().y - pos.y;
+
+		float mag = ((tempX * tempX) + (tempY * tempY));
+
+		//random height in a set, still messing with these
+		AddObject(new BlasterBullet(5, 100, sf::Vector2f(tempX/mag, tempY / mag), pos));
 	}
 }

@@ -2,8 +2,11 @@
 #include "SFML\Graphics.hpp"
 
 #include "MousePointer.h"
-#include "GameObject.h"
 #include "Random.h"
+//#include "Utils.h"
+
+
+class GameObject;
 
 class Game
 {
@@ -12,7 +15,9 @@ private:
 	sf::Clock clock;
 	std::vector<GameObject*> m_GameObjectsList;
 	Random myRandomGen;
+
 	float m_WallCreateCountdown;
+	float m_WeaponCountdown;
 
 	MousePointer mousePointer;
 	
@@ -31,8 +36,9 @@ public:
 	void AddObject(GameObject* object);
 
 	void CreateWalls(float dt);
+	void FireWeapon(float dt, sf::Vector2f pos);
 
 	bool Quitting() { return quitGame; }
-
+	Random &GetNumGen() { return myRandomGen; }
 };
 
