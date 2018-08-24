@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML\Graphics.hpp"
+#include "Random.h"
 
 class GameObject
 {
@@ -13,7 +14,10 @@ public:
 	virtual void Update(float dt) {};
 	virtual void Draw(sf::RenderWindow& window);
 
+	bool IsDestroyed() { return m_IsDestroyed; }
+
 protected:
+	bool m_IsDestroyed;
 	sf::RectangleShape m_Body;
 };
 
@@ -30,7 +34,21 @@ public:
 	~PlayerObject() {};
 
 	void Update(float dt);
-	void Draw(sf::RenderWindow& window) { window.draw(m_Body); }
 
 	void Input(float dt);
+};
+
+class WallObject : public GameObject
+{
+private:
+	const int m_Width = 100;
+	const int m_MoveSpeed = 150;
+
+public:
+	static int m_WallsCount;
+	WallObject(float height);
+
+	void Update(float dt);
+	int GetWallCount();
+
 };

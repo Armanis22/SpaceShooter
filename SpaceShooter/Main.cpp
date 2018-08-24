@@ -1,10 +1,12 @@
 // SFMLTemplate.cpp : Defines the entry point for the console application.
 //
+#pragma once
 
 #include "stdafx.h"
 #include <SFML\Graphics.hpp>
 
 #include "Game.h"
+
 
 int main()
 {
