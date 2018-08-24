@@ -4,7 +4,7 @@
 
 Game::Game()
 {
-	
+	AddObject(new PlayerObject);
 }
 
 
@@ -16,7 +16,7 @@ void Game::Play(sf::RenderWindow& window)
 {
 
 	
-
+	sf::Time dt = clock.restart();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -39,16 +39,44 @@ void Game::Play(sf::RenderWindow& window)
 		{
 			QuitGame();
 		}
+		//updating game app and objects.
+		Update(dt.asSeconds());
 
 		//updating the mouse position
 
 		mousePointer.Update(sf::Mouse::getPosition(window));
 
+		//start of window drawing stuff
 		window.clear();
+
+		Draw(window);
+
 		window.draw(mousePointer.InnerTarget());
 		window.draw(mousePointer.OuterTarget());
 
 		window.display();
 	}
 
+}
+
+void Game::Update(float dt)
+{
+	for (const auto& objects : m_GameObjectsList)
+	{
+
+	}
+}
+
+void Game::Draw(sf::RenderWindow & window)
+{
+	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
+	{
+		m_GameObjectsList[i]->Draw(window);
+	}
+}
+
+void Game::AddObject(GameObject * object)
+{
+
+	m_GameObjectsList.emplace_back(object);
 }
