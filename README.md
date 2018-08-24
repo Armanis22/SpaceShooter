@@ -1,3 +1,7 @@
+###########  NOTE   ###########
+May need to move the SFML directory up one level outside the solutions main directory
+
+
 # SpaceShooter
 Just a simple little space arcade game to get back into the swing of things and start working on my chops again. nothing spectacular or interesting
 
