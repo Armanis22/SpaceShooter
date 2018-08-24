@@ -21,14 +21,16 @@ class PlayerObject : public GameObject
 {
 private:
 	//sf::RectangleShape m_Body;
-
-
+	const float MOVESPEED = 300;
+	const sf::Vector2f noMove = sf::Vector2f(0,0);
+	sf::Vector2f moveVec;
 
 public:
 	PlayerObject();
 	~PlayerObject() {};
 
-	void Update(float dt) {};
+	void Update(float dt);
 	void Draw(sf::RenderWindow& window) { window.draw(m_Body); }
 
+	void Input(float dt);
 };

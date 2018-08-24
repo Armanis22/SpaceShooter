@@ -16,9 +16,11 @@ void Game::Play(sf::RenderWindow& window)
 {
 
 	
-	sf::Time dt = clock.restart();
+	//printf("%d\n", dt.asSeconds());
+
 	while (window.isOpen())
 	{
+	sf::Time dt = clock.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -61,9 +63,9 @@ void Game::Play(sf::RenderWindow& window)
 
 void Game::Update(float dt)
 {
-	for (const auto& objects : m_GameObjectsList)
+	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
-
+		m_GameObjectsList[i]->Update(dt);
 	}
 }
 
