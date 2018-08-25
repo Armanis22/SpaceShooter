@@ -50,6 +50,10 @@ private:
 
 public:
 	WallObject(float height);
+	~WallObject()
+	{
+		printf("DELETED\n");
+	}
 
 	void Update(Game* game, float dt);
 	int GetWallCount();
@@ -78,7 +82,10 @@ private:
 	
 public:
 	BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location);
-
+	~BlasterBullet()
+	{
+		printf("DELETED\n");
+	}
 	//sf::CircleShape m_Body;
 
 	void Update(Game* game, float dt);

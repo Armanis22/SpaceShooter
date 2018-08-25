@@ -3,55 +3,6 @@
 #include "GameObject.h"
 
 
-void Game::ObjectQuickSort(int left, int right)
-{
-	//outer indices of the list of objects
-	// needed for the recursive call
-	// need these temps iter values to also have initual values left and right
-	int i = left;
-	int j = right;
-
-	int index = (left + right) / 2;
-	float pivot = m_GameObjectsList[index]->GetXValue();
-	// partition
-	//as long as i is less than j
-	// then left is still left of right, right?
-	// find the ones out of place and move that bitch
-
-	while (i <= j)
-	{
-		while (m_GameObjectsList[i]->GetXValue() < pivot)
-		{
-			i++;
-		}
-		while (m_GameObjectsList[j]->GetXValue() > pivot)
-		{
-			j--;
-		}
-
-		//switch around ones found to be in the wrong place
-		if (m_GameObjectsList[i]->GetXValue() > m_GameObjectsList[j]->GetXValue())
-		{
-			GameObject* _temp = m_GameObjectsList[i];
-			m_GameObjectsList[i] = m_GameObjectsList[j];
-			m_GameObjectsList[j] = _temp;
-			i++;
-			j--;
-			//delete _temp;
-		}
-
-
-	}
-
-	if (left < j)
-	{
-		ObjectQuickSort(left, j);
-	}
-	if (i > right)
-	{
-		ObjectQuickSort(i, right);
-	}
-}
 
 Game::Game()
 {
@@ -120,10 +71,10 @@ void Game::Update(float dt)
 	CreateWalls(dt);
 
 	//sort all Items by their x position. used for collision
-	/*if (m_GameObjectsList.size() > 2)
+	if (m_GameObjectsList.size() > 2)
 	{
 		ObjectQuickSort(0, m_GameObjectsList.size() - 1);
-	}*/
+	}
 
 
 
@@ -188,5 +139,54 @@ void Game::FireWeapon(float dt, sf::Vector2f pos)
 
 		//its magic! again! poof!
 		AddObject(new BlasterBullet(5, 500, sf::Vector2f(tempX/mag, tempY / mag), pos));
+	}
+}
+void Game::ObjectQuickSort(int left, int right)
+{
+	//outer indices of the list of objects
+	// needed for the recursive call
+	// need these temps iter values to also have initual values left and right
+	int i = left;
+	int j = right;
+
+	int index = (left + right) / 2;
+	float pivot = m_GameObjectsList[index]->GetXValue();
+	// partition
+	//as long as i is less than j
+	// then left is still left of right, right?
+	// find the ones out of place and move that bitch
+
+	while (i < j)
+	{
+		while (m_GameObjectsList[i]->GetXValue() < pivot)
+		{
+			i++;
+		}
+		while (m_GameObjectsList[j]->GetXValue() > pivot)
+		{
+			j--;
+		}
+
+		//switch around ones found to be in the wrong place
+		if (m_GameObjectsList[i]->GetXValue() > m_GameObjectsList[j]->GetXValue())
+		{
+			GameObject* _temp = m_GameObjectsList[i];
+			m_GameObjectsList[i] = m_GameObjectsList[j];
+			m_GameObjectsList[j] = _temp;
+			i++;
+			j--;
+			//delete _temp;
+		}
+
+
+	}
+
+	if (left < j)
+	{
+		ObjectQuickSort(left, j);
+	}
+	if (i > right)
+	{
+		ObjectQuickSort(i, right);
 	}
 }
