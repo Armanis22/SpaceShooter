@@ -78,7 +78,7 @@ private:
 	int m_Radius;
 	int m_MoveSpeed;
 	sf::Vector2f m_MoveDirection;
-	float m_Countdown = 0;
+	float m_LifeTime;
 	
 public:
 	BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location);

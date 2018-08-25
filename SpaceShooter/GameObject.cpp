@@ -125,12 +125,16 @@ BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vect
 	//m_MoveSpeed(moveSpd)
 	//m_MoveDirection(dir)
 	m_MoveDirection = dir;
-
+	m_LifeTime = 0;
 }
 
 void BlasterBullet::Update(Game * game, float dt)
 {
 	
 	m_Body.move(m_MoveDirection.x * m_MoveSpeed * dt, m_MoveDirection.y * m_MoveSpeed * dt);
-	m_Countdown += dt;
+	m_LifeTime += dt;
+	if (m_LifeTime > 3)
+	{
+		m_IsDestroyed = true;
+	}
 }

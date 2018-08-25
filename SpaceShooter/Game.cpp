@@ -168,7 +168,7 @@ void Game::ObjectQuickSort(int left, int right)
 		}
 
 		//switch around ones found to be in the wrong place
-		if (m_GameObjectsList[i]->GetXValue() > m_GameObjectsList[j]->GetXValue())
+		if (m_GameObjectsList[i]->GetXValue() >= m_GameObjectsList[j]->GetXValue())
 		{
 			GameObject* _temp = m_GameObjectsList[i];
 			m_GameObjectsList[i] = m_GameObjectsList[j];
@@ -181,12 +181,12 @@ void Game::ObjectQuickSort(int left, int right)
 
 	}
 
-	if (left < j)
+	if (i < j)
 	{
-		ObjectQuickSort(left, j);
+		ObjectQuickSort(i, j);
 	}
-	if (i > right)
+	/*if (i > right)
 	{
 		ObjectQuickSort(i, right);
-	}
+	}*/
 }
