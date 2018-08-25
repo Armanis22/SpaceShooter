@@ -3,6 +3,56 @@
 #include "GameObject.h"
 
 
+void Game::ObjectQuickSort(int left, int right)
+{
+	//outer indices of the list of objects
+	// needed for the recursive call
+	// need these temps iter values to also have initual values left and right
+	int i = left;
+	int j = right;
+
+	int index = (left + right) / 2;
+	float pivot = m_GameObjectsList[index]->GetXValue();
+	// partition
+	//as long as i is less than j
+	// then left is still left of right, right?
+	// find the ones out of place and move that bitch
+
+	while (i <= j)
+	{
+		while (m_GameObjectsList[i]->GetXValue() < pivot)
+		{
+			i++;
+		}
+		while (m_GameObjectsList[j]->GetXValue() > pivot)
+		{
+			j--;
+		}
+
+		//switch around ones found to be in the wrong place
+		if (m_GameObjectsList[i]->GetXValue() > m_GameObjectsList[j]->GetXValue())
+		{
+			GameObject* _temp = m_GameObjectsList[i];
+			m_GameObjectsList[i] = m_GameObjectsList[j];
+			m_GameObjectsList[j] = _temp;
+			i++;
+			j--;
+			//delete _temp;
+		}
+
+
+	}
+
+	if (left < j)
+	{
+		ObjectQuickSort(left, j);
+	}
+	if (i > right)
+	{
+		ObjectQuickSort(i, right);
+	}
+}
+
 Game::Game()
 {
 	myRandomGen.Init();
@@ -69,21 +119,32 @@ void Game::Update(float dt)
 {
 	CreateWalls(dt);
 
+	//sort all Items by their x position. used for collision
+	/*if (m_GameObjectsList.size() > 2)
+	{
+		ObjectQuickSort(0, m_GameObjectsList.size() - 1);
+	}*/
+
+
+
+	//update all objects
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
 		m_GameObjectsList[i]->Update(&(*this), dt);
+
 	}
+	//TODO: add checks for collisions before destroying
+
+
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
 		if (m_GameObjectsList[i]->IsDestroyed())
 		{
-			//delete m_GameObjectsList[i];
-			m_GameObjectsList.erase(m_GameObjectsList.begin() + 1);
+			delete m_GameObjectsList[i];
+			m_GameObjectsList.erase(m_GameObjectsList.begin() + i);
 			i--;
 		}
 	}
-
-
 }
 
 void Game::Draw(sf::RenderWindow & window)
@@ -114,16 +175,18 @@ void Game::CreateWalls(float dt)
 void Game::FireWeapon(float dt, sf::Vector2f pos)
 {
 	m_WeaponCountdown += dt;
-	if (m_WeaponCountdown >= .1f)
+	if (m_WeaponCountdown >= .12f)
 	{
 		m_WeaponCountdown = 0;
 
 		int tempX = mousePointer.GetPosition().x - pos.x;
 		int tempY = mousePointer.GetPosition().y - pos.y;
 
-		float mag = ((tempX * tempX) + (tempY * tempY));
+		float mag = sqrtf(((tempX * tempX) + (tempY * tempY)));
+		sf::Vector2f unitDirection = sf::Vector2f(tempX / mag, tempY / mag);
+		float unitMag = (tempX / mag) + (tempY / mag);
 
-		//random height in a set, still messing with these
-		AddObject(new BlasterBullet(5, 100, sf::Vector2f(tempX/mag, tempY / mag), pos));
+		//its magic! again! poof!
+		AddObject(new BlasterBullet(5, 500, sf::Vector2f(tempX/mag, tempY / mag), pos));
 	}
 }

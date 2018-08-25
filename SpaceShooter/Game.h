@@ -22,23 +22,24 @@ private:
 	MousePointer mousePointer;
 	
 
-	bool quitGame = false;
-	void QuitGame() { quitGame = true; }
+	bool	quitGame = false;
+	void	QuitGame	() { quitGame = true; }
 
 
 public:
 	Game();
 	~Game();
 
-	void Play(sf::RenderWindow& window);
-	void Update(float dt);
-	void Draw(sf::RenderWindow& window);
-	void AddObject(GameObject* object);
+	void	Play		(sf::RenderWindow& window);
+	void	Update		(float dt);
+	void	Draw		(sf::RenderWindow& window);
+	void	AddObject	(GameObject* object);
 
-	void CreateWalls(float dt);
-	void FireWeapon(float dt, sf::Vector2f pos);
+	void	CreateWalls	(float dt);
+	void	FireWeapon	(float dt, sf::Vector2f pos);
 
-	bool Quitting() { return quitGame; }
-	Random &GetNumGen() { return myRandomGen; }
+	bool	Quitting	() { return quitGame; }
+	Random	&GetNumGen	() { return myRandomGen; }
+	void	ObjectQuickSort(int left, int right);
 };
 

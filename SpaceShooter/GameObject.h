@@ -17,6 +17,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window);
 
 	bool IsDestroyed() { return m_IsDestroyed; }
+	float GetXValue() {	return m_Body.getPosition().x; }
 
 protected:
 	bool m_IsDestroyed;
@@ -45,13 +46,24 @@ class WallObject : public GameObject
 private:
 	const int m_Width = 100;
 	const int m_MoveSpeed = 150;
+	static int m_WallsCount;
 
 public:
-	static int m_WallsCount;
 	WallObject(float height);
 
 	void Update(Game* game, float dt);
 	int GetWallCount();
+
+};
+
+class EnemyBaseObject :public GameObject
+{
+private:
+
+
+public:
+	
+
 
 };
 

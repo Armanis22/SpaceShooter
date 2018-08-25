@@ -15,7 +15,8 @@ void GameObject::Draw(sf::RenderWindow & window)
 }
 
 
-PlayerObject::PlayerObject()
+PlayerObject::PlayerObject() :
+	GameObject::GameObject()
 {
 	// yeah yeah I know, magic numbers, bite me :p
 	m_Body.setFillColor(sf::Color::Green);
@@ -71,13 +72,14 @@ void PlayerObject::Input(Game* game, float dt)
 
 int WallObject::m_WallsCount = 0;
 
-WallObject::WallObject(float height)
+WallObject::WallObject(float height) :
+	GameObject::GameObject()
 {
 	m_WallsCount++;
 	m_Body.setFillColor(sf::Color::Color(40, 40, 40, 255));
 	m_Body.setSize(sf::Vector2f(m_Width, height));
 	int temp = m_WallsCount % 2;
-	printf("%i\n", temp);
+
 	//magic numbers I know
 	// so we check if the number of walls is even or odd
 	//odd ones go on the bottom to populate both
@@ -98,7 +100,7 @@ void WallObject::Update(Game* game, float dt)
 {
 	m_Body.move(sf::Vector2f(-500*dt, 0));
 
-	if (m_Body.getPosition().x < -150)
+	if (m_Body.getPosition().x < -200)
 	{
 		m_IsDestroyed = true;
 	}
@@ -109,9 +111,12 @@ int WallObject::GetWallCount()
 	return m_WallsCount;
 }
 
-BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location)
+BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location) :
+	GameObject::GameObject()
+
+
 {
-	m_Body.setFillColor(sf::Color::Blue);
+	m_Body.setFillColor(sf::Color::Red);
 	m_Body.setPosition(location);
 	m_Body.setSize({ 10,10 });
 	m_MoveSpeed = moveSpd;
@@ -125,6 +130,7 @@ BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vect
 
 void BlasterBullet::Update(Game * game, float dt)
 {
-	m_Body.move(m_MoveDirection.x * m_MoveSpeed, m_MoveDirection.y * m_MoveSpeed);
+	
+	m_Body.move(m_MoveDirection.x * m_MoveSpeed * dt, m_MoveDirection.y * m_MoveSpeed * dt);
 	m_Countdown += dt;
 }
