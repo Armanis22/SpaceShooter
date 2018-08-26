@@ -3,6 +3,7 @@
 
 #include "MousePointer.h"
 #include "Random.h"
+#include "StarBackground.h"
 //#include "Utils.h"
 
 
@@ -25,7 +26,7 @@ private:
 	bool	quitGame = false;
 	void	QuitGame	() { quitGame = true; }
 
-
+	StarBackground background;
 public:
 	Game();
 	~Game();

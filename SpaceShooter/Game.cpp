@@ -8,6 +8,7 @@ Game::Game()
 {
 	myRandomGen.Init();
 	AddObject(new PlayerObject);
+
 }
 
 
@@ -68,6 +69,7 @@ void Game::Play(sf::RenderWindow& window)
 
 void Game::Update(float dt)
 {
+
 	CreateWalls(dt);
 
 	//sort all Items by their x position. used for collision
@@ -96,14 +98,20 @@ void Game::Update(float dt)
 			i--;
 		}
 	}
+	
+	//putting the background for the stars here
+	background.Update(dt);
 }
 
 void Game::Draw(sf::RenderWindow & window)
 {
+	//draw the stars BEFORE the game objects
+	background.Draw(window);
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
 		m_GameObjectsList[i]->Draw(window);
 	}
+
 }
 
 void Game::AddObject(GameObject * object)
@@ -149,7 +157,7 @@ void Game::ObjectQuickSort(int left, int right)
 	int i = left;
 	int j = right;
 
-	int index = (left + right) / 2;
+	int index = (left + (right - left)) / 2;
 	float pivot = m_GameObjectsList[index]->GetXValue();
 	// partition
 	//as long as i is less than j

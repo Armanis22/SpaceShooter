@@ -18,7 +18,6 @@ int main()
 	{
 		game.Play(window);
 	}
-
+	
 	return 0;
 }
-

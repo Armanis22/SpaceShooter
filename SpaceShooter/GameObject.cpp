@@ -119,6 +119,7 @@ BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vect
 	m_Body.setFillColor(sf::Color::Red);
 	m_Body.setPosition(location);
 	m_Body.setSize({ 10,10 });
+	m_Body.setOrigin(m_Body.getSize().x / 2, m_Body.getSize().y / 2);
 	m_MoveSpeed = moveSpd;
 	//m_Body.setRadius(radius);
 	
