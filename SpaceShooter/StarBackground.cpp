@@ -4,13 +4,12 @@
 void StarBackground::CreateStar()
 {
 	MyStars tempStar;
-	tempStar.radius = starsRandom.IntInRange(1, 5);
+	tempStar.radius = starsRandom.IntInRange(0, 4);
 	tempStar.body.setRadius(tempStar.radius);
 	tempStar.body.setFillColor(sf::Color::White);
 	tempStar.moveSpeed = 200 - (tempStar.radius * 20);
 
-	tempStar.body.setPosition(1250, starsRandom.IntInRange(10, 710));
-
+	tempStar.body.setPosition(1250, starsRandom.IntInRange(50, 670));
 
 	starVec.push_back(tempStar);
 }
