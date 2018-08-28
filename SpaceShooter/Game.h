@@ -4,6 +4,9 @@
 #include "MousePointer.h"
 #include "Random.h"
 #include "StarBackground.h"
+
+
+
 //#include "Utils.h"
 
 
@@ -17,6 +20,10 @@ private:
 	std::vector<GameObject*> m_GameObjectsList;
 	Random myRandomGen;
 
+	//collider stuff
+	// TODO: REFACTOR, game is filling up
+	bool CheckYValues(float num, float othernum);
+
 	float m_WallCreateCountdown;
 	float m_WeaponCountdown;
 
@@ -27,6 +34,10 @@ private:
 	void	QuitGame	() { quitGame = true; }
 
 	StarBackground background;
+
+
+	//temp float for spacing out fps in console
+	float fpsCooldown;
 public:
 	Game();
 	~Game();

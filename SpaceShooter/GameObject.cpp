@@ -22,7 +22,7 @@ PlayerObject::PlayerObject() :
 	m_Body.setFillColor(sf::Color::Green);
 	m_Body.setSize({ 50,20 });
 	m_Body.setPosition({ 100, 200 });
-	m_Body.setOrigin({ m_Body.getSize().x / 2,m_Body.getSize().y / 2 });
+	//m_Body.setOrigin({ m_Body.getSize().x / 2,m_Body.getSize().y / 2 });
 
 }
 
@@ -75,6 +75,7 @@ int WallObject::m_WallsCount = 0;
 WallObject::WallObject(float height) :
 	GameObject::GameObject()
 {
+	
 	m_WallsCount++;
 	m_Body.setFillColor(sf::Color::Color(40, 40, 40, 255));
 	m_Body.setSize(sf::Vector2f(m_Width, height));
@@ -117,9 +118,10 @@ BlasterBullet::BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vect
 
 {
 	m_Body.setFillColor(sf::Color::Red);
-	m_Body.setPosition(location);
+	sf::Vector2f firingPosition(sf::Vector2f(location.x + 30, location.y));
+	m_Body.setPosition(firingPosition);
 	m_Body.setSize({ 10,10 });
-	m_Body.setOrigin(m_Body.getSize().x / 2, m_Body.getSize().y / 2);
+	//m_Body.setOrigin(m_Body.getSize().x / 2, m_Body.getSize().y / 2);
 	m_MoveSpeed = moveSpd;
 	//m_Body.setRadius(radius);
 	

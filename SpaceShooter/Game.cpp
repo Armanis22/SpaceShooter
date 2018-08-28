@@ -4,6 +4,13 @@
 
 
 
+bool Game::CheckYValues(float num, float othernum)
+{
+	if (num > othernum)
+		return true;
+	return false;
+}
+
 Game::Game()
 {
 	myRandomGen.Init();
@@ -19,12 +26,12 @@ Game::~Game()
 void Game::Play(sf::RenderWindow& window)
 {
 
-	
+
 	//printf("%d\n", dt.asSeconds());
 
 	while (window.isOpen())
 	{
-	sf::Time dt = clock.restart();
+		sf::Time dt = clock.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -34,7 +41,7 @@ void Game::Play(sf::RenderWindow& window)
 				if (event.key.code == sf::Keyboard::Escape)
 				{
 					window.close();
-				
+
 				}
 			}
 			if (event.type == sf::Event::Closed)
@@ -45,9 +52,9 @@ void Game::Play(sf::RenderWindow& window)
 		{
 			QuitGame();
 		}
-		
+
 		//updating game app and objects.
-		
+
 		Update(dt.asSeconds());
 
 		//updating the mouse position
@@ -69,7 +76,15 @@ void Game::Play(sf::RenderWindow& window)
 
 void Game::Update(float dt)
 {
-
+	// send the fps to the console, I might change this
+	// to an actual SFML obj in the corner. meh
+	fpsCooldown += dt;
+	if (fpsCooldown > 1.f)
+	{
+		fpsCooldown = 0;
+		printf("%f\n", 1.0f / dt);
+	}
+	
 	CreateWalls(dt);
 
 	//sort all Items by their x position. used for collision
@@ -83,12 +98,47 @@ void Game::Update(float dt)
 	//update all objects
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
+
 		m_GameObjectsList[i]->Update(&(*this), dt);
+
+		//collisions
+		int j = i + 1;
+		if (j < m_GameObjectsList.size())
+		{
+			float temp;
+			float iright = m_GameObjectsList[i]->GetBody().getPosition().x + 
+							m_GameObjectsList[i]->GetBody().getSize().x;
+			float jleft = m_GameObjectsList[j]->GetBody().getPosition().x;
+			if (iright > jleft)
+			{
+				jleft = m_GameObjectsList[j]->GetBody().getPosition().x;
+				float itop = m_GameObjectsList[i]->GetBody().getPosition().y;
+				float jbottom = m_GameObjectsList[j]->GetBody().getPosition().y +
+					m_GameObjectsList[j]->GetBody().getSize().y;
+				if (itop < jbottom)
+				{
+					float ibottom = m_GameObjectsList[i]->GetBody().getPosition().y +
+						m_GameObjectsList[i]->GetBody().getSize().y;
+					float jtop = m_GameObjectsList[j]->GetBody().getPosition().y;
+					if (ibottom > jtop)
+					{
+						if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]) &&
+							dynamic_cast<WallObject*>(m_GameObjectsList[j]))
+						printf("called\n");
+					}
+				}
+				j++;
+
+			}
+
+		}
+		
 
 	}
 	//TODO: add checks for collisions before destroying
 
 
+	// delete objects and erase them from the vector
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{
 		if (m_GameObjectsList[i]->IsDestroyed())
@@ -106,6 +156,7 @@ void Game::Update(float dt)
 void Game::Draw(sf::RenderWindow & window)
 {
 	//draw the stars BEFORE the game objects
+	//this keeps them behind the walls and everything else
 	background.Draw(window);
 	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
 	{

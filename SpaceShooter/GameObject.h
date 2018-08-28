@@ -19,6 +19,11 @@ public:
 	bool IsDestroyed() { return m_IsDestroyed; }
 	float GetXValue() {	return m_Body.getPosition().x; }
 
+	float GetLowY() { return m_Body.getPosition().y; }
+	float GetHightY() { return m_Body.getPosition().y + m_Body.getSize().x; }
+
+	const sf::RectangleShape& GetBody() { return m_Body; }
+
 protected:
 	bool m_IsDestroyed;
 	sf::RectangleShape m_Body;
@@ -27,7 +32,6 @@ protected:
 class PlayerObject : public GameObject
 {
 private:
-	//sf::RectangleShape m_Body;
 	const float MOVESPEED = 300;
 	const sf::Vector2f noMove = sf::Vector2f(0,0);
 	sf::Vector2f moveVec;
@@ -50,11 +54,7 @@ private:
 
 public:
 	WallObject(float height);
-	~WallObject()
-	{
-		printf("DELETED\n");
-	}
-
+	~WallObject() {};
 	void Update(Game* game, float dt);
 	int GetWallCount();
 
@@ -79,13 +79,11 @@ private:
 	int m_MoveSpeed;
 	sf::Vector2f m_MoveDirection;
 	float m_LifeTime;
+
 	
 public:
 	BlasterBullet(int radius, int moveSpd, sf::Vector2f dir, sf::Vector2f location);
-	~BlasterBullet()
-	{
-		printf("DELETED\n");
-	}
+	~BlasterBullet() {};
 	//sf::CircleShape m_Body;
 
 	void Update(Game* game, float dt);
