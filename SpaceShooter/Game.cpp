@@ -78,12 +78,13 @@ void Game::Update(float dt)
 {
 	// send the fps to the console, I might change this
 	// to an actual SFML obj in the corner. meh
-	fpsCooldown += dt;
+	
+	/*fpsCooldown += dt;
 	if (fpsCooldown > 1.f)
 	{
 		fpsCooldown = 0;
 		printf("%f\n", 1.0f / dt);
-	}
+	}*/
 	
 	CreateWalls(dt);
 
@@ -96,12 +97,14 @@ void Game::Update(float dt)
 
 
 	//update all objects
-	for (size_t i = 0; i < m_GameObjectsList.size(); i++)
+	for (int i = 0; i < m_GameObjectsList.size(); i++)
 	{
 
 		m_GameObjectsList[i]->Update(&(*this), dt);
 
 		//collisions
+
+		//welcome to my super nested, ultra ugly, craptastic collisions!
 		int j = i + 1;
 		if (j < m_GameObjectsList.size())
 		{
@@ -109,6 +112,8 @@ void Game::Update(float dt)
 			float iright = m_GameObjectsList[i]->GetBody().getPosition().x + 
 							m_GameObjectsList[i]->GetBody().getSize().x;
 			float jleft = m_GameObjectsList[j]->GetBody().getPosition().x;
+
+			//for (; iright > jleft;j++)
 			if (iright > jleft)
 			{
 				jleft = m_GameObjectsList[j]->GetBody().getPosition().x;
@@ -124,7 +129,9 @@ void Game::Update(float dt)
 					{
 						if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]) &&
 							dynamic_cast<WallObject*>(m_GameObjectsList[j]))
-						printf("called\n");
+						{
+							printf("called\n");
+						}
 					}
 				}
 				j++;

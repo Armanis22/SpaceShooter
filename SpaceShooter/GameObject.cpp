@@ -23,7 +23,7 @@ PlayerObject::PlayerObject() :
 	m_Body.setSize({ 50,20 });
 	m_Body.setPosition({ 100, 200 });
 	//m_Body.setOrigin({ m_Body.getSize().x / 2,m_Body.getSize().y / 2 });
-
+	moveVec = sf::Vector2f(0,0);
 }
 
 void PlayerObject::Update(Game* game, float dt)
@@ -45,7 +45,7 @@ void PlayerObject::Input(Game* game, float dt)
 	{
 		moveVec.x = MOVESPEED * dt;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		moveVec.x = -MOVESPEED * dt;
 	}
@@ -53,7 +53,7 @@ void PlayerObject::Input(Game* game, float dt)
 	{
 		moveVec.y = -MOVESPEED * dt;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		moveVec.y = MOVESPEED * dt;
 	}
