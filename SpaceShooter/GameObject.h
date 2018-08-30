@@ -24,6 +24,19 @@ public:
 
 	const sf::RectangleShape& GetBody() { return m_Body; }
 
+	GameObject operator<(const GameObject& other)
+	{
+		if ((this->m_Body.getPosition().x) > (other.m_Body.getPosition().x))
+		{
+			return *this;
+		}
+		else
+		{
+			return other;
+		}
+
+	}
+
 protected:
 	bool m_IsDestroyed;
 	sf::RectangleShape m_Body;
@@ -33,7 +46,6 @@ class PlayerObject : public GameObject
 {
 private:
 	const float MOVESPEED = 300;
-	const sf::Vector2f noMove = sf::Vector2f(0,0);
 	sf::Vector2f moveVec;
 
 public:

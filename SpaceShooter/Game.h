@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "SFML\Graphics.hpp"
 
 #include "MousePointer.h"
@@ -53,5 +54,6 @@ public:
 	bool	Quitting	() { return quitGame; }
 	Random	&GetNumGen	() { return myRandomGen; }
 	void	ObjectQuickSort(int left, int right);
+	bool	MySortFunc(GameObject* i, GameObject* j);
 };
 

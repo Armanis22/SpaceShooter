@@ -141,3 +141,4 @@ void BlasterBullet::Update(Game * game, float dt)
 		m_IsDestroyed = true;
 	}
 }
+

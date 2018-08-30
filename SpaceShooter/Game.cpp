@@ -89,10 +89,11 @@ void Game::Update(float dt)
 	CreateWalls(dt);
 
 	//sort all Items by their x position. used for collision
-	if (m_GameObjectsList.size() > 2)
+	/*if (m_GameObjectsList.size() > 2)
 	{
 		ObjectQuickSort(0, m_GameObjectsList.size() - 1);
-	}
+	}*/
+	std::sort(m_GameObjectsList.begin(), m_GameObjectsList.end());
 
 
 
@@ -255,4 +256,10 @@ void Game::ObjectQuickSort(int left, int right)
 	{
 		ObjectQuickSort(i, right);
 	}*/
+}
+
+bool Game::MySortFunc(GameObject * i, GameObject * j)
+{
+	bool _temp = (i->GetBody().getPosition().x) < (j->GetBody().getPosition().x);
+	return (i->GetBody().getPosition().x) < (j->GetBody().getPosition().x);
 }

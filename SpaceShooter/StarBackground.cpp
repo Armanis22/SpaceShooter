@@ -6,7 +6,8 @@ void StarBackground::CreateStar()
 	MyStars tempStar;
 	tempStar.radius = starsRandom.IntInRange(0, 4);
 	tempStar.body.setRadius(tempStar.radius);
-	tempStar.body.setFillColor(sf::Color::White);
+	int colorOffset = 55 + tempStar.radius * 50;
+	tempStar.body.setFillColor(sf::Color::Color(colorOffset, colorOffset, colorOffset, 255));
 	tempStar.moveSpeed = 200 - (tempStar.radius * 20);
 
 	tempStar.body.setPosition(1250, starsRandom.IntInRange(50, 670));
