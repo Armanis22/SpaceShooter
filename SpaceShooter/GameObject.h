@@ -17,6 +17,8 @@ public:
 	virtual void Draw(sf::RenderWindow& window);
 
 	bool IsDestroyed() { return m_IsDestroyed; }
+	void DestroyObject() { m_IsDestroyed = true; }
+
 
 	virtual float GetLowXValue() const { return m_Body.getPosition().x; }
 	virtual float GetHighXValue() { return m_Body.getPosition().x + m_Body.getSize().x; }
@@ -46,6 +48,8 @@ public:
 	void Update(Game* game, float dt);
 
 	void Input(Game* game, float dt);
+
+	void MovePlayer(sf::RectangleShape rect);
 };
 
 class WallObject : public GameObject

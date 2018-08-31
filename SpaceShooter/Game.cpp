@@ -79,12 +79,12 @@ void Game::Update(float dt)
 	// send the fps to the console, I might change this
 	// to an actual SFML obj in the corner. meh
 	
-	/*fpsCooldown += dt;
+	fpsCooldown += dt;
 	if (fpsCooldown > 1.f)
 	{
 		fpsCooldown = 0;
 		printf("%f\n", 1.0f / dt);
-	}*/
+	}
 	
 	CreateWalls(dt);
 
@@ -103,9 +103,10 @@ void Game::Update(float dt)
 		//GetXMaybe(*m_GameObjectsList[i]);
 		//printf("%f\n", m_GameObjectsList[i]->GetBody().getPosition().x);
 		m_GameObjectsList[i]->Update(&(*this), dt);
-
+	}
 		//collisions
-
+	for (int i = 0; i < m_GameObjectsList.size(); i++)
+	{
 		//welcome to my super nested, ultra ugly, craptastic collisions!
 		int j = i + 1;
 		if (j < m_GameObjectsList.size())
@@ -131,8 +132,33 @@ void Game::Update(float dt)
 					{
 						if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]))
 						{
+							PlayerObject* player = dynamic_cast<PlayerObject*>(m_GameObjectsList[i]);
+							if (dynamic_cast<WallObject*>(m_GameObjectsList[j]))
+							{
 
-							printf("called\n");
+								printf("called\n");
+								player->MovePlayer(m_GameObjectsList[j]->GetBody());
+							}
+						}
+						if (dynamic_cast<WallObject*>(m_GameObjectsList[i]))
+						{
+							if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]))
+							{
+								PlayerObject* player = dynamic_cast<PlayerObject*>(m_GameObjectsList[j]);
+
+								player->MovePlayer(m_GameObjectsList[i]->GetBody());
+							}
+						}
+
+
+						if (dynamic_cast<BlasterBullet*>(m_GameObjectsList[i]))
+						{
+							if (dynamic_cast<WallObject*>(m_GameObjectsList[j]))
+							{
+
+								printf("called\n");
+								m_GameObjectsList[i]->DestroyObject();
+							}
 						}
 					}
 				}
@@ -245,20 +271,19 @@ void Game::ObjectQuickSort(int left, int right)
 			m_GameObjectsList[j] = _temp;
 			i++;
 			j--;
-			//delete _temp;
 		}
 
 
 	}
 
-	if (left < j)
+	/*if (left < j)
 	{
 		ObjectQuickSort(left, j);
 	}
 	if (i > right)
 	{
 		ObjectQuickSort(i, right);
-	}
+	}*/
 }
 
 bool Game::MySortFunc(GameObject * i, GameObject * j)

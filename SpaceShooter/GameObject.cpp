@@ -85,6 +85,19 @@ void PlayerObject::Input(Game* game, float dt)
 
 }
 
+void PlayerObject::MovePlayer(sf::RectangleShape rect)
+{
+	if ((rect.getPosition().y + rect.getSize().y) > m_Body.getPosition().y)
+	{
+		m_Body.setPosition(sf::Vector2f(m_Body.getPosition().x, rect.getPosition().y + rect.getSize().y + 1));
+	}
+	/*else if (vec.y < m_Body.getPosition().y)
+	{
+		m_Body.move({ 0,1 });
+
+	}*/
+}
+
 int WallObject::m_WallsCount = 0;
 
 WallObject::WallObject(float height) :
