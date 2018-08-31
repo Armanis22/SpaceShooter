@@ -55,5 +55,7 @@ public:
 	Random	&GetNumGen	() { return myRandomGen; }
 	void	ObjectQuickSort(int left, int right);
 	bool	MySortFunc(GameObject* i, GameObject* j);
+
+	
 };
 

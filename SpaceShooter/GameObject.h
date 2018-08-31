@@ -17,25 +17,16 @@ public:
 	virtual void Draw(sf::RenderWindow& window);
 
 	bool IsDestroyed() { return m_IsDestroyed; }
-	float GetXValue() {	return m_Body.getPosition().x; }
 
-	float GetLowY() { return m_Body.getPosition().y; }
-	float GetHightY() { return m_Body.getPosition().y + m_Body.getSize().x; }
+	virtual float GetLowXValue() const { return m_Body.getPosition().x; }
+	virtual float GetHighXValue() { return m_Body.getPosition().x + m_Body.getSize().x; }
+	virtual float GetLowY() { return m_Body.getPosition().y; }
+	virtual float GetHightY() { return m_Body.getPosition().y + m_Body.getSize().x; }
 
-	const sf::RectangleShape& GetBody() { return m_Body; }
+	virtual const sf::RectangleShape& GetBody() { return m_Body; }
 
-	GameObject operator<(const GameObject& other)
-	{
-		if ((this->m_Body.getPosition().x) > (other.m_Body.getPosition().x))
-		{
-			return *this;
-		}
-		else
-		{
-			return other;
-		}
-
-	}
+	
+	bool operator<(const GameObject& obj) const;
 
 protected:
 	bool m_IsDestroyed;
@@ -64,12 +55,20 @@ private:
 	const int m_MoveSpeed = 150;
 	static int m_WallsCount;
 
+
+
 public:
 	WallObject(float height);
 	~WallObject() {};
 	void Update(Game* game, float dt);
 	int GetWallCount();
 
+	float tester() { return m_Body.getPosition().x; }
+
+	float GetLowXValue() const { 
+		float temp = m_Body.getPosition().x;
+		//printf("%f\n", temp);
+		return temp; }
 };
 
 class EnemyBaseObject :public GameObject

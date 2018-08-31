@@ -89,18 +89,19 @@ void Game::Update(float dt)
 	CreateWalls(dt);
 
 	//sort all Items by their x position. used for collision
-	/*if (m_GameObjectsList.size() > 2)
+	if (m_GameObjectsList.size() > 2)
 	{
 		ObjectQuickSort(0, m_GameObjectsList.size() - 1);
-	}*/
-	std::sort(m_GameObjectsList.begin(), m_GameObjectsList.end());
+		//std::sort(m_GameObjectsList.begin(), m_GameObjectsList.end());
+	}
 
 
 
 	//update all objects
 	for (int i = 0; i < m_GameObjectsList.size(); i++)
 	{
-
+		//GetXMaybe(*m_GameObjectsList[i]);
+		//printf("%f\n", m_GameObjectsList[i]->GetBody().getPosition().x);
 		m_GameObjectsList[i]->Update(&(*this), dt);
 
 		//collisions
@@ -128,9 +129,9 @@ void Game::Update(float dt)
 					float jtop = m_GameObjectsList[j]->GetBody().getPosition().y;
 					if (ibottom > jtop)
 					{
-						if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]) &&
-							dynamic_cast<WallObject*>(m_GameObjectsList[j]))
+						if (dynamic_cast<PlayerObject*>(m_GameObjectsList[i]))
 						{
+
 							printf("called\n");
 						}
 					}
@@ -217,7 +218,8 @@ void Game::ObjectQuickSort(int left, int right)
 	int j = right;
 
 	int index = (left + (right - left)) / 2;
-	float pivot = m_GameObjectsList[index]->GetXValue();
+	float pivot = m_GameObjectsList[index]->GetBody().getPosition().x;
+	
 	// partition
 	//as long as i is less than j
 	// then left is still left of right, right?
@@ -225,17 +227,18 @@ void Game::ObjectQuickSort(int left, int right)
 
 	while (i < j)
 	{
-		while (m_GameObjectsList[i]->GetXValue() < pivot)
+		while (m_GameObjectsList[i]->GetBody().getPosition().x < pivot)
 		{
 			i++;
 		}
-		while (m_GameObjectsList[j]->GetXValue() > pivot)
+		while (m_GameObjectsList[j]->GetBody().getPosition().x > pivot)
 		{
 			j--;
 		}
 
 		//switch around ones found to be in the wrong place
-		if (m_GameObjectsList[i]->GetXValue() >= m_GameObjectsList[j]->GetXValue())
+		if (m_GameObjectsList[i]->GetBody().getPosition().x >= 
+			m_GameObjectsList[j]->GetBody().getPosition().x)
 		{
 			GameObject* _temp = m_GameObjectsList[i];
 			m_GameObjectsList[i] = m_GameObjectsList[j];
@@ -248,14 +251,14 @@ void Game::ObjectQuickSort(int left, int right)
 
 	}
 
-	if (i < j)
+	if (left < j)
 	{
-		ObjectQuickSort(i, j);
+		ObjectQuickSort(left, j);
 	}
-	/*if (i > right)
+	if (i > right)
 	{
 		ObjectQuickSort(i, right);
-	}*/
+	}
 }
 
 bool Game::MySortFunc(GameObject * i, GameObject * j)

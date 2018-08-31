@@ -6,12 +6,19 @@
 
 GameObject::GameObject()
 {
+	m_Body.setPosition({ 0,0 });
 	m_IsDestroyed = false;
 }
 
 void GameObject::Draw(sf::RenderWindow & window)
 {
 	window.draw(m_Body);
+}
+
+bool GameObject::operator<(const GameObject & obj) const
+{
+	
+	return (m_Body.getPosition().x < obj.m_Body.getPosition().x);
 }
 
 
@@ -49,6 +56,10 @@ void PlayerObject::Input(Game* game, float dt)
 	{
 		moveVec.x = -MOVESPEED * dt;
 	}
+	else
+	{
+		moveVec.x = 0;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		moveVec.y = -MOVESPEED * dt;
@@ -56,6 +67,10 @@ void PlayerObject::Input(Game* game, float dt)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		moveVec.y = MOVESPEED * dt;
+	}
+	else
+	{
+		moveVec.y = 0;
 	}
 
 	//mouse input
